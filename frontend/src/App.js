@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-
+const apiUrl = process.env.REACT_APP_API_URL;
 function App() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/todos')
+    fetch(`${window.location.protocol}//${window.location.hostname}/todos`)
       .then((response) => response.json())
       .then((data) => setTodos(data.todos))
       .catch((error) => console.error('Error fetching todos:', error));
