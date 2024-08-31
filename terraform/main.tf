@@ -14,7 +14,7 @@ resource "digitalocean_droplet" "web" {
               sudo apt update
               sudo apt install -y caddy
               # Configure Caddy
-              echo "c29tZXN0dWZmLmRkbnMubmV0IHsKICAgIHJldmVyc2VfcHJveHkgLyBodHRwOi8vbG9jYWxob3N0OjgwMDAKfQ==" | base64 -d > /etc/caddy/Caddyfile
+              echo "bWltaWRlbW8uZHVja2Rucy5vcmcKCnJldmVyc2VfcHJveHkgOjgwMDA=" | base64 -d > /etc/caddy/Caddyfile
               docker run -d -p 8000:8000 ${var.dockerhub_username}/my-fullstack-app:latest
               EOF
 }
