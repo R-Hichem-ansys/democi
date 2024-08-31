@@ -1,5 +1,5 @@
 resource "digitalocean_droplet" "web" {
-  image  = "docker-20-04"
+  image  = "ubuntu-22-04-x64"
   name   = "my-fullstack-app"
   region = var.region
   size   = "s-1vcpu-1gb" # Choose the appropriate size for your app
@@ -8,6 +8,7 @@ resource "digitalocean_droplet" "web" {
   user_data = <<-EOF
               #!/bin/bash
               apt-get update
+              curl -L get.docker.com | bash
               sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
               curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
               curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
