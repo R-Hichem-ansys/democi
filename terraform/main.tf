@@ -8,19 +8,13 @@ resource "digitalocean_droplet" "web" {
   user_data = <<-EOF
               #!/bin/bash
               apt-get update
-              apt-get install -y debian-archive-keyring
-
-              # Install Caddy
-              curl -fsSL https://getcaddy.com | bash -s personal
-              apt-get install -y caddy
-
+              sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
+              curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+              curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+              sudo apt update
+              sudo apt install -y caddy
               # Configure Caddy
-              cat <<EOF > /etc/caddy/Caddyfile
-              your-domain.com {
-                  reverse_proxy / http://localhost:8000
-              }
-              systemctl enable caddy
-              systemctl start caddy
+              echo "c29tZXN0dWZmLmRkbnMubmV0IHsKICAgIHJldmVyc2VfcHJveHkgLyBodHRwOi8vbG9jYWxob3N0OjgwMDAKfQ==" | base64 -d > /etc/caddy/Caddyfile
               docker run -d -p 8000:8000 ${var.dockerhub_username}/my-fullstack-app:latest
               EOF
 }
