@@ -21,7 +21,6 @@ resource "digitalocean_droplet" "web" {
               }
               systemctl enable caddy
               systemctl start caddy
-              docker pull ${var.dockerhub_username}/my-fullstack-app:latest
               docker run -d -p 8000:8000 ${var.dockerhub_username}/my-fullstack-app:latest
               EOF
 }
